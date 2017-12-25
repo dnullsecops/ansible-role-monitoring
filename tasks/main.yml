@@ -1,0 +1,3 @@
+---
+  - include: netdata.yml
+  - include: nginx.yml

@@ -1,0 +1,14 @@
+---
+- name: netdata_enable
+  service: name=netdata enabled=true
+- name: netdata_start
+  service: name=netdata state=started
+- name: netdata_restart
+  service: name=netdata state=restarted
+
+- name: nginx_enable
+  service: name=nginx enabled=true
+- name: nginx_start
+  service: name=nginx state=started
+- name: nginx_reload
+  command: 'nginx -s reload'

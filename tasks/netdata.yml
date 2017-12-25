@@ -1,0 +1,42 @@
+---
+# tasks file for ansible-role-monitoring
+- name: "Netdata - Deps"
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - zlib-devel
+  - libuuid-devel
+  - libmnl-devel
+  - gcc
+  - make
+  - git
+  - autoconf
+  - autoconf-archive
+  - autogen
+  - automake
+  - pkgconfig
+  - curl
+  - findutils
+  tags: monitoring_deps
+
+- name: "Netdata - Source"
+  # TODO: install netdata from rpm, not from source
+  git:
+    repo: 'https://github.com/firehol/netdata.git'
+    dest: "{{ role_monitoring.src_path }}"
+    update: yes
+    depth: 1
+  tags: monitoring_source
+
+- name: "Netdata - Install"
+  shell: 'cd {{ role_monitoring.src_path }} && ./netdata-installer.sh --dont-wait --libs-are-really-here'
+  notify:
+  - netdata_enable
+  - netdata_restart
+  tags: monitoring_install
+
+#- name: "Netdata - Update"
+#  shell: "cd {{ role_monitoring.src_path }} && ./netdata-updater.sh"
+#  tags: monitoring_update
+#  when: role_monitoring.update

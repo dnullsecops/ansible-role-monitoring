@@ -1,0 +1,28 @@
+---
+- name: "Nginx - install"
+  package:
+    name: nginx
+    state: latest
+  tags: nginx_install
+  notify:
+  - nginx_enable
+  - nginx_start
+
+- name: "Nginx - Install policycoreutils-python (selinux)"
+  dnf:
+    name: policycoreutils-python
+    state: present
+  tags: nginx_se
+
+- name: "Nginx - Set up selinux for nginx 19999"
+  seport: ports=19999 proto=tcp setype=http_port_t state=present
+  tags: nginx_se
+- shell: 'setsebool -P httpd_can_network_connect true'
+  tags: nginx_se
+
+- name: "Nginx - config"
+  template:
+    src: nginx_netdata.conf.j2
+    dest: /etc/nginx/nginx.conf
+  tags: nginx_config
+  notify: nginx_reload
