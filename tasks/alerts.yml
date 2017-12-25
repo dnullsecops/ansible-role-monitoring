@@ -1,0 +1,14 @@
+---
+- name: "Alerts - slack web-hook"
+  lineinfile:
+    path: /etc/netdata/health_alarm_notify.conf
+    regexp: '^SLACK_WEBHOOK_URL='
+    line: 'SLACK_WEBHOOK_URL="{{ role_monitoring.alerts.slack_webhook }}"'
+  notify: netdata_restart
+
+- name: "Alerts - slack channels"
+  lineinfile:
+    path: /etc/netdata/health_alarm_notify.conf
+    regexp: '^DEFAULT_RECIPIENT_SLACK='
+    line: 'DEFAULT_RECIPIENT_SLACK="{{ role_monitoring.alerts.slack_channels }}"'
+  notify: netdata_restart

@@ -2,3 +2,6 @@
 role_monitoring:
   src_path: "/usr/src/netdata"
   update: false
+  alerts:
+    slack_webhook: ""
+    slack_channels: ""

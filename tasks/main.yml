@@ -1,3 +1,7 @@
 ---
   - include: netdata.yml
+    tags: netdata
   - include: nginx.yml
+    tags: nginx
+  - include: alerts.yml
+    tags: alerts
